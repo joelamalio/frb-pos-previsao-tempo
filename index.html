@@ -10,7 +10,7 @@
     </head>
     <body id="corpo">
         <img src="images/loader.gif" class="loader" alt="loading" />
-        <form name="form1" action="#">
+        <form name="formulario" action="#">
             <div id="page-wrap">
 
                 <img src="images/furacao.gif" alt="condicao" id="pic" width="400" />
@@ -37,13 +37,28 @@
                 
                 <dl>
                     <dd class="clear"></dd>
-                    <dt>Localização</dt>
+                    <dt>Previsão Atual</dt>
                     <dd>
-                        <input type="text" name="localizacao" value="" />
+                        
                     </dd>
                     
                 </dl>
                 
+                <dl>
+                    <dd class="clear"></dd>
+                    <dt>Localização</dt>
+                    <dd>
+                        <input type="text" name="localizacao" value="" />
+                        <input type="submit" value="Obter" name="obter" class="botao50" />
+                    </dd>
+                    <dd class="clear"></dd>
+                    <dt>Latitude / Longitude</dt>
+                    <dd>
+                        <input type="text" name="latitude" value="" size="3" disabled="disabled" />
+                        
+                        <input type="text" name="longitude" value="" size="3" disabled="disabled" />
+                    </dd>
+                </dl>
 
             </div>
         </form>
