@@ -1,13 +1,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Previs�o do Tempo</title>
+        <title>Previsão do Tempo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="css/estilo.css" />
+        <link rel="stylesheet" href="css/styles.css" />
         <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="js/funcoes.js"></script>
         <script type="text/javascript" src="js/geo-min.js"></script>
-        <script type="text/javascript" src="js/funcao.js"></script>
     </head>
-    <body>
+    <body id="corpo">
+        <img src="images/loader.gif" class="loader" alt="loading" />
+        <form name="form1" action="#">
+            <div id="page-wrap">
+
+                <img src="images/furacao.gif" alt="condicao" id="pic" width="400" />
+
+                <div id="contact-info" class="vcard">
+
+                    <h1 class="fn">Previsão do Tempo</h1>
+
+                    <p class="paragrafo">
+                        <span>Componentes:</span><br />
+                        <a class="email" href="https://github.com/antoniojunior87/" target="_blank">Antonio Fonseca</a><br />
+                        <a class="email" href="https://github.com/brunomsc/" target="_blank">Bruno Magalhães</a><br />
+                        <a class="email" href="https://github.com/eduardosiqueirajr/" target="_blank">Eduardo Siqueira</a><br />
+                        <a class="email" href="https://github.com/israelbsr/" target="_blank">Israel Ramos</a><br />
+                        <a class="email" href="https://github.com/joelamalio/" target="_blank">Joel Amálio</a><br />
+                    </p>
+                </div>
+
+                <div id="objective">
+                    <p class="paragrafo">
+                        Projeto da matéria HANDS-ON: Processos Ágeis no curso Componentes Distribuídos Web da Pós-Graduação da Faculdade Ruy Barbosa.
+                    </p>
+                </div>
+                
+                <dl>
+                    <dd class="clear"></dd>
+                    <dt>Localização</dt>
+                    <dd>
+                        <input type="text" name="localizacao" value="" />
+                    </dd>
+                    
+                </dl>
+                
+
+            </div>
+        </form>
     </body>
 </html>
