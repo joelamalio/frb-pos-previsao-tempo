@@ -1,19 +1,14 @@
 function obterLocalizacaoGeografica() {
-    var x;
-    var y;
-    if(geo_position_js.init()) {
-        geo_position_js.getCurrentPosition( function (p) {
-            x = p.coords.latitude;
-            y = p.coords.longitude;
-            obterPrevisaoTempo({"latitude" : x, "longitude" : y});
-        }, function(p) {},{
-            enableHighAccuracy:true
-        });
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(p) {
+            var x = position.coords.latitude;
+            var y = position.coords.longitude;
+            obterPrevisaoTempo({
+                "latitude" : x, 
+                "longitude" : y
+            });
+        }, function(p) {});
     }
-    return {
-        "latitude" : x, 
-        "longitude" : y
-    };
 }
 
 function chamadaAjaxPadrao(query, callBack) {
