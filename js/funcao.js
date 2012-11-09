@@ -109,10 +109,12 @@ function setIdDaCidade(id) {
 
 function obterPrevisaoDoTempoPorGeolocalizacao() {
     var input = $("#latitude_longitude_cidade");
+    var nomeCidade = $("#nome_cidade");
     var valores = input.val().split(";");
     var latitude = valores[0];
     var longitude = valores[1];
     obterCidadePorCoordenadas(latitude, longitude);
+    
 }
 
 function obterPrevisaoDoTempoPorNomeDaCidade() {
@@ -146,7 +148,7 @@ function obterPrevisaoDoTempoPorIdDaCidade(id) {
             var cidade = json;
             var id = $("#id_cidade").val();
             atualizarDiv(cidade);
-            obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id);
+            //obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id);
         }
     });
 }
@@ -176,6 +178,7 @@ function obterCidadePorCoordenadas(latitude, longitude) {
             var cidade = json.list[0];
             setIdDaCidade(cidade.id);
             obterPrevisaoDoTempoPorIdDaCidade(cidade.id);
+            obterFacebook(cidade.name);
         }
     });
 }
@@ -184,7 +187,7 @@ function obterCidadePorCoordenadas(latitude, longitude) {
 /* Facebook e Twitter*/
 function obterFacebook(cidade) {
     var divFacebook = document.getElementById("facebook");
-    var consulta = cidade + " previsao clima tempo temperatura ";
+    var consulta = cidade + " clima temperatura ";
     
     consulta = replaceAll(consulta, " ", "+");
     
