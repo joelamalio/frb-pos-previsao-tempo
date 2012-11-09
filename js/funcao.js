@@ -1,5 +1,5 @@
-$(document).ready(function($) {
-    obterPrevisaoDoTempoPorGeolocalizacao();
+$(document).ready(function() {
+    obterGeolocalizacao();
 });
 
 function converterKelvinEmCelsius(valor) {
@@ -33,17 +33,6 @@ function efeitoAjaxPadrao(query, callBack) {
             });
         }
     });     
-}
-
-function atualizarLatitudeELongitude(latitude, longitude) {
-    var latitudeInput = $("#latitude");
-    var longitudeInput = $("#longitude");   
-    //console.log('Latitude | ' + e.coords.latitude);
-    //console.log('Longitude | ' + e.coords.longitude);
-    latitudeInput.val(latitude);            
-    latitudeInput.attr("size", latitudeInput.val().length * 1.2);
-    longitudeInput.val(longitude);
-    longitudeInput.attr("size", longitudeInput.val().length * 1.2);
 }
 
 function atualizarDiv(cidade) {
@@ -80,18 +69,39 @@ function adicionaLinhaTabela(tabela, informacao) {
     tabela.appendChild(tr);
 }
 
-function obterPrevisaoDoTempoPorGeolocalizacao() {
-    if(navigator.geolocation) {
-        //console.log(navigator.geolocation);
+function obterGeolocalizacao() {
+    console.log(navigator.geolocation);
+    if(navigator.geolocation) {    
         navigator.geolocation.getCurrentPosition(function(e) {
             var latitude = e.coords.latitude;
             var longitude = e.coords.longitude;
-            atualizarLatitudeELongitude(latitude, longitude);
-            obterCidadePorLatitudeELongitude(latitude, longitude);
+            setCoordenadasDaCidade(latitude, longitude);
+            obterPrevisaoDoTempoPorGeolocalizacao();
         });
     } else {
         alert('Desculpe, mas seu navegador não suporta Geolocalização.');
     }
+}
+
+function setCoordenadasDaCidade(latitude, longitude) {
+    var input = $("#latitude_longitude_cidade");
+    var valor = latitude + ";" + longitude
+    console.log("Atualizando campo -> latitude_longitude_cidade = " + valor);
+    input.val(valor);
+}
+
+function setIdDaCidade(id) {
+    var input = $("#id_cidade");
+    console.log("Atualizando campo -> id = " + id);
+    input.val(id);
+}
+
+function obterPrevisaoDoTempoPorGeolocalizacao() {
+    var input = $("#latitude_longitude_cidade");
+    var valores = input.val().split(";");
+    var latitude = valores[0];
+    var longitude = valores[1];
+    obterCidadePorCoordenadas(latitude, longitude);
 }
 
 function obterPrevisaoDoTempoPorNomeDaCidade() {
@@ -109,14 +119,14 @@ function obterPrevisaoDoTempoPorNomeDaCidade() {
             console.log('Latitude | ' + latitude);
             console.log('Longitude | ' + longitude);
             atualizarLatitudeELongitude(latitude, longitude);
-            obterCidadePorLatitudeELongitude(latitude, longitude);
+            obterCidadePorCoordenadas(latitude, longitude);
         }
     });
 }
 
 function obterPrevisaoDoTempoPorIdDaCidade(id) {
     var query = "/openweathermap_weather/" + id + "?type=json";
-    console.log('Query | ' + query);
+    console.log("Requisição -> " + query);
     
     $.ajax({
         url: query,
@@ -130,7 +140,7 @@ function obterPrevisaoDoTempoPorIdDaCidade(id) {
 
 function obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id) {
     var query = "/openweathermap_history?" + id + "type=day";
-    console.log('Query | ' + query);
+    console.log("Requisição -> " + query);
     
     $.ajax({
         url: query,
@@ -142,15 +152,16 @@ function obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id) {
     }); 
 }
 
-function obterCidadePorLatitudeELongitude(latitude, longitude) {
+function obterCidadePorCoordenadas(latitude, longitude) {
     var query = "/openweathermap_find?lat=" + latitude + "&lon=" + longitude + "&cnt=1";
-    console.log('Query | ' + query);
+    console.log("Requisição -> " + query);
     
     $.ajax({
         url: query,
         dataType: "json",
         success: function (json) {
             var cidade = json.list[0];
+            setIdDaCidade(cidade.id);
             obterPrevisaoDoTempoPorIdDaCidade(cidade.id);
         }
     });

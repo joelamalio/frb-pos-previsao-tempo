@@ -38,24 +38,25 @@
                     <dd class="clear"></dd>
                     <dt>Localização</dt>
                     <dd>
-                        <input id="nome_cidade" type="text" name="nome_cidade" value="" size="41" maxlength="30" class="campo"/>
+                        <input id="id_cidade" type="hidden" value=""/>
+                        <input id="nome_cidade" type="text" value="" size="41" maxlength="30" class="campo"/>
+                        <input id="latitude_longitude_cidade" type="hidden" value=""/>
+                        
                         <input type="button" value="Obter por cidade" name="obter" class="botao input150" onclick="obterPrevisaoDoTempoPorNomeDaCidade();" />
                     </dd>
-                    <dd class="clear"></dd>
-                    <dt>Latitude / Longitude</dt>
-                    <dd>
-                        <input id="latitude" type="text" name="latitude" value="" size="3" readonly="readonly" class="campo"/>
-                        /
-                        <input id="longitude" type="text" name="longitude" value="" size="3" readonly="readonly" class="campo"/>
-                        <input type="button" value="Obter por geolocalicação" name="obter" class="botao input250" onclick="obterPrevisaoDoTempoPorGeolocalizacao();" />
-                    </dd>
                 </dl>
-
 
                 <dl>
                     <dd class="clear"></dd>
                     <dt>Previsão Atual</dt>
                     <div id="previsao_atual">
+                    </div>
+                </dl>
+
+                <dl>
+                    <dd class="clear"></dd>
+                    <dt>Previsão dos próximos 3 dias</dt>
+                    <div id="previsao_proximos_3_dias">
                     </div>
                 </dl>
 
