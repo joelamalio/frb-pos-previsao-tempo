@@ -1,0 +1,31 @@
+* { margin: 0; padding: 0; }
+body { font: 16px Helvetica, Sans-Serif; line-height: 24px; background: url('../images/noise.jpg'); }
+#page-wrap { width: 1000px; margin: 40px auto 60px; }
+#pic { float: right; margin: -30px 0 0 0; }
+h1 { margin: 0 0 16px 0; padding: 0 0 16px 0; font-size: 42px; font-weight: bold; letter-spacing: -2px; border-bottom: 1px solid #999; }
+h2 { font-size: 20px; margin: 0 0 6px 0; position: relative; }
+h2 span { position: absolute; bottom: 0; right: 0; font-style: italic; font-family: Georgia, Serif; font-size: 16px; color: #999; font-weight: normal; }
+a { color: #999; text-decoration: none; border-bottom: 1px dotted #999; }
+a:hover { border-bottom-style: solid; color: black; }
+ul { margin: 0 0 32px 17px; }
+#objective { width: 500px; float: left; }
+#objective p { font-family: Georgia, Serif; font-style: italic; color: #666; }
+dt { font-style: italic; font-weight: bold; font-size: 18px; text-align: right; padding: 0 26px 0 0; width: 200px; float: left; /*height: 100px;*/ border-right: 1px solid #999;  }
+dd { width: 750px; float: right; }
+dd.clear { float: none; margin: 0; height: 15px; }
+table.news tr td{padding-bottom: 20px}
+table.news tr td span{color: #666; font: 12px Helvetica, Sans-Serif; }
+table a.rightIconified {display: none}
+table.rightIconified td input {display: none}
+p { margin: 0 0 16px 0; color: #666; font: 12px Helvetica, Sans-Serif;}
+
+/* default */
+input {height: 20px; border-radius:  8px; padding: 2px;}
+
+/* class */
+.botao {background-color: #000000; color: #cccccc; text-transform: uppercase; font-weight: bold;}
+.campo {background-color: #cccccc; color: #000000; text-transform: uppercase; font-weight: bold;}
+.clear { clear: both;}
+.input150 {width: 150px;}
+.input250 {width: 250px;}
+.loader {display: none;float: left;}

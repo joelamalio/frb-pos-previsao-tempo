@@ -3,10 +3,9 @@
     <head>
         <title>Previsão do Tempo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/estilo.css" />
         <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript" src="js/funcoes.js"></script>
-        <script type="text/javascript" src="js/geo-min.js"></script>
+        <script type="text/javascript" src="js/funcao.js"></script>
     </head>
     <body id="corpo">
         <img src="images/loader.gif" class="loader" alt="loading" />
@@ -37,27 +36,27 @@
                 
                 <dl>
                     <dd class="clear"></dd>
-                    <dt>Previsão Atual</dt>
-                    <dd>
-                        
-                    </dd>
-                    
-                </dl>
-                
-                <dl>
-                    <dd class="clear"></dd>
                     <dt>Localização</dt>
                     <dd>
-                        <input type="text" name="localizacao" value="" />
-                        <input type="submit" value="Obter" name="obter" class="botao50" />
+                        <input id="nome_cidade" type="text" name="nome_cidade" value="" size="41" maxlength="30" class="campo"/>
+                        <input type="button" value="Obter por cidade" name="obter" class="botao input150" onclick="obterPrevisaoDoTempoPorNomeDaCidade();" />
                     </dd>
                     <dd class="clear"></dd>
                     <dt>Latitude / Longitude</dt>
                     <dd>
-                        <input type="text" name="latitude" value="" size="3" disabled="disabled" />
-                        
-                        <input type="text" name="longitude" value="" size="3" disabled="disabled" />
+                        <input id="latitude" type="text" name="latitude" value="" size="3" readonly="readonly" class="campo"/>
+                        /
+                        <input id="longitude" type="text" name="longitude" value="" size="3" readonly="readonly" class="campo"/>
+                        <input type="button" value="Obter por geolocalicação" name="obter" class="botao input250" onclick="obterPrevisaoDoTempoPorGeolocalizacao();" />
                     </dd>
+                </dl>
+
+
+                <dl>
+                    <dd class="clear"></dd>
+                    <dt>Previsão Atual</dt>
+                    <div id="previsao_atual">
+                    </div>
                 </dl>
 
             </div>
