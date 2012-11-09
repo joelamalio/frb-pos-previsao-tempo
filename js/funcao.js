@@ -8,6 +8,7 @@ function converterKelvinEmCelsius(valor) {
 }
 
 function removerAcentuacao(texto) {
+    texto = texto.replace(new RegExp(' ','gi'), '+');
     texto = texto.replace(new RegExp('[ÁÀÂÃ]','gi'), 'A');
     texto = texto.replace(new RegExp('[ÉÈÊ]','gi'), 'E');
     texto = texto.replace(new RegExp('[ÍÌÎ]','gi'), 'I');
@@ -39,18 +40,16 @@ function atualizarDiv(cidade) {
     var divPrevisaoAtual = document.getElementById("previsao_atual");
     divPrevisaoAtual.innerHTML = "";
     var tabela = document.createElement("table");
-    //var foto = document.createElement("img");
-    //foto.src = deputado.foto;
-    //foto.setAttribute("style", "float:left");
+    var fotoCondicao = document.createElement("img");
     $("#nome_cidade").val(cidade.name);
     adicionaLinhaTabela(tabela, ["Data: ", cidade.date]);
     adicionaLinhaTabela(tabela, ["Cidade: ", cidade.name]);
     adicionaLinhaTabela(tabela, ["Logintude: ", cidade.coord.lat]);
     adicionaLinhaTabela(tabela, ["Latitude: ", cidade.coord.lon]);
     adicionaLinhaTabela(tabela, ["Temperatura (Celsius): ", converterKelvinEmCelsius(cidade.main.temp)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Máxima(Celsius): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Mínima(Celsius): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
-    adicionaLinhaTabela(tabela, ["Previsão do Tempo: ", cidade.clouds]);
+    adicionaLinhaTabela(tabela, ["Temperatura Máxima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
+    adicionaLinhaTabela(tabela, ["Temperatura Mínima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
+    adicionarImagemNaTabela(tabela, "Condição do Tempo: ", cidade.img);
     
     divPrevisaoAtual.appendChild(tabela);
 }
@@ -67,6 +66,18 @@ function adicionaLinhaTabela(tabela, informacao) {
         tr.appendChild(td);
     }
     tabela.appendChild(tr);
+}
+
+function adicionarImagemNaTabela(tabela, titulo, imagem) {
+        var tr = document.createElement("tr");
+        var tdTitulo = document.createElement("td");
+        var tdImg = document.createElement("td");
+        tdTitulo.innerHTML = "<b>" + titulo + "</b>";
+        tdTitulo.setAttribute("style", "text-align: right");
+        tdImg.innerHTML = '<img src="'+ imagem +'"/>';
+        tr.appendChild(tdTitulo);
+        tr.appendChild(tdImg);
+        tabela.appendChild(tr);
 }
 
 function obterGeolocalizacao() {
@@ -118,7 +129,7 @@ function obterPrevisaoDoTempoPorNomeDaCidade() {
             var longitude = coordenada.lng;
             console.log('Latitude | ' + latitude);
             console.log('Longitude | ' + longitude);
-            atualizarLatitudeELongitude(latitude, longitude);
+            setCoordenadasDaCidade(latitude, longitude);
             obterCidadePorCoordenadas(latitude, longitude);
         }
     });
