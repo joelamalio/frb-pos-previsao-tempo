@@ -21,7 +21,7 @@ function removerAcentuacao(texto) {
 function efeitoAjaxPadrao(query, callBack) {
     $.ajax({
         url: query,
-        dataType: "html",
+        dataType: "json",
         success: callBack,
         beforeSend: function(){
             $('.loader').css({
@@ -122,10 +122,8 @@ function obterPrevisaoDoTempoPorNomeDaCidade() {
     var query = "/googlemaps?address=" + removerAcentuacao(nomeCidade.val()) + "&sensor=true";
     console.log('Query | ' + query);
     
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var coordenada = json.results[0].geometry.location;
             var latitude = coordenada.lat;
             var longitude = coordenada.lng;
@@ -134,53 +132,47 @@ function obterPrevisaoDoTempoPorNomeDaCidade() {
             setCoordenadasDaCidade(latitude, longitude);
             obterCidadePorCoordenadas(latitude, longitude);
         }
-    });
+    );
 }
 
 function obterPrevisaoDoTempoPorIdDaCidade(id) {
     var query = "/openweathermap_weather/" + id + "?type=json";
     console.log("Requisição -> " + query);
     
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var cidade = json;
             var id = $("#id_cidade").val();
             atualizarDiv(cidade);
             //obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id);
         }
-    });
+    );
 }
 
 function obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id) {
     var query = "/openweathermap_history/" + id + "?type=day";
     console.log("Requisição -> " + query);
     
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var cidade = json.list[0];
             atualizarDiv(cidade);
         }
-    }); 
+    ); 
 }
 
 function obterCidadePorCoordenadas(latitude, longitude) {
     var query = "/openweathermap_find?lat=" + latitude + "&lon=" + longitude + "&cnt=1";
     console.log("Requisição -> " + query);
     
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var cidade = json.list[0];
             setIdDaCidade(cidade.id);
             obterPrevisaoDoTempoPorIdDaCidade(cidade.id);
             obterFacebook(cidade.name);
         }
-    });
+    );
 }
 
 
@@ -193,10 +185,8 @@ function obterFacebook(cidade) {
     
     divFacebook.innerHTML = "";
     var query = "../facebook/search?type=POST&q=" + consulta;
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var tabela = document.createElement("table");
             tabela.innerHTML = "";
             tabela.setAttribute("class", "news");
@@ -206,7 +196,7 @@ function obterFacebook(cidade) {
             }
             divFacebook.appendChild(tabela);
         }
-    });
+    );
 }
 function adicionarFacebook(tabela, facePost) {
     
@@ -257,10 +247,8 @@ function obterTwitter(cidade) {
     
     divTwitter.innerHTML = "";
     var query = "../twitter/search.json?&q=" + consulta;
-    $.ajax({
-        url: query,
-        dataType: "json",
-        success: function (json) {
+    efeitoAjaxPadrao(query,
+        function (json) {
             var tabela = document.createElement("table");
             tabela.innerHTML = "";
             tabela.setAttribute("class", "news");
@@ -270,7 +258,7 @@ function obterTwitter(cidade) {
             }
             divTwitter.appendChild(tabela);
         }
-    });
+    );
 }
 
 function adicionarTwitte(tabela, twitte) {
