@@ -83,11 +83,17 @@ function adicionarImagemNaTabela(tabela, titulo, imagem) {
 function obterGeolocalizacao() {
     console.log(navigator.geolocation);
     if(navigator.geolocation) {    
+        $('.loader').css({
+            display:"block"
+        });
         navigator.geolocation.getCurrentPosition(function(e) {
             var latitude = e.coords.latitude;
             var longitude = e.coords.longitude;
             setCoordenadasDaCidade(latitude, longitude);
             obterPrevisaoDoTempoPorGeolocalizacao();
+        });
+        $('.loader').css({
+            display:"none"
         });
     } else {
         alert('Desculpe, mas seu navegador não suporta Geolocalização.');
@@ -171,6 +177,7 @@ function obterCidadePorCoordenadas(latitude, longitude) {
             setIdDaCidade(cidade.id);
             obterPrevisaoDoTempoPorIdDaCidade(cidade.id);
             obterFacebook(cidade.name);
+            obterTwitter(cidade.name);
         }
     );
 }
