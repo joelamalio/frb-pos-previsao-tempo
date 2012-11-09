@@ -144,13 +144,15 @@ function obterPrevisaoDoTempoPorIdDaCidade(id) {
         dataType: "json",
         success: function (json) {
             var cidade = json;
+            var id = $("#id_cidade").val();
             atualizarDiv(cidade);
+            obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id);
         }
     });
 }
 
 function obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id) {
-    var query = "/openweathermap_history?" + id + "type=day";
+    var query = "/openweathermap_history/" + id + "?type=day";
     console.log("Requisição -> " + query);
     
     $.ajax({
