@@ -48,8 +48,8 @@ function atualizarDiv(cidade) {
     adicionaLinhaTabela(tabela, ["Logintude: ", cidade.coord.lat]);
     adicionaLinhaTabela(tabela, ["Latitude: ", cidade.coord.lon]);
     adicionaLinhaTabela(tabela, ["Temperatura (Celsius): ", converterKelvinEmCelsius(cidade.main.temp)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Máxima(Celsius): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Mínima(Celsius): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
+    adicionaLinhaTabela(tabela, ["Temperatura Máxima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
+    adicionaLinhaTabela(tabela, ["Temperatura Mínima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
     adicionaLinhaTabela(tabela, ["Previsão do Tempo: ", cidade.clouds]);
     
     divPrevisaoAtual.appendChild(tabela);
@@ -118,7 +118,7 @@ function obterPrevisaoDoTempoPorNomeDaCidade() {
             var longitude = coordenada.lng;
             console.log('Latitude | ' + latitude);
             console.log('Longitude | ' + longitude);
-            atualizarLatitudeELongitude(latitude, longitude);
+            setCoordenadasDaCidade(latitude, longitude);
             obterCidadePorCoordenadas(latitude, longitude);
         }
     });
