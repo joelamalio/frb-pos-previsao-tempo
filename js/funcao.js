@@ -166,3 +166,136 @@ function obterCidadePorCoordenadas(latitude, longitude) {
         }
     });
 }
+
+
+/* Facebook e Twitter*/
+function obterFacebook(cidade) {
+    var divFacebook = document.getElementById("facebook");
+    var consulta = cidade + " previsao clima tempo temperatura ";
+    
+    consulta = replaceAll(consulta, " ", "+");
+    
+    divFacebook.innerHTML = "";
+    var query = "../facebook/search?type=POST&q=" + consulta;
+    $.ajax({
+        url: query,
+        dataType: "json",
+        success: function (json) {
+            var tabela = document.createElement("table");
+            tabela.innerHTML = "";
+            tabela.setAttribute("class", "news");
+            for(var i = 0; i < json.data.length; i++) {
+                var facePost = json.data[i];
+                adicionarFacebook(tabela, facePost);
+            }
+            divFacebook.appendChild(tabela);
+        }
+    });
+}
+function adicionarFacebook(tabela, facePost) {
+    
+    if(facePost != undefined) {
+        var imagem;
+        if(facePost.picture != undefined) {
+            imagem = facePost.picture;
+        } else {
+            imagem = "images/noticia.jpg"
+        }
+        var titulo = facePost.from.name;
+        
+        var conteudo;
+        if(facePost.message != undefined || facePost.caption != undefined) {
+            if(facePost.message != undefined && facePost.caption == undefined) {
+                conteudo = facePost.message;
+            } else if(facePost.message == undefined && facePost.caption != undefined) {
+                conteudo = facePost.caption;
+            } else {
+                if(facePost.message.lenght <= facePost.caption.lenght) {
+                    conteudo = facePost.message;
+                } else {
+                    conteudo = facePost.caption;
+                }
+            }
+        } else {
+            return;
+        }
+        var link = facePost.link;
+        var tr = document.createElement("tr");
+        var tdImg = document.createElement("td");
+        tdImg.innerHTML = '<img style="align: left;" width="60" height="60" src="'+ imagem +'"/>';
+        tr.appendChild(tdImg);
+        var tdFace = document.createElement("td");
+        var linkDecoded = decodeURIComponent(link);
+        tdFace.innerHTML = '<strong><a href="' + linkDecoded + '" target="_blank">' + titulo + '</a></strong><br/><span>'+ conteudo + '</span>';
+        tr.appendChild(tdFace);
+        tabela.appendChild(tr);
+    }
+}
+
+function obterTwitter(cidade) {
+    
+    var divTwitter = document.getElementById("twitter");
+    var consulta = "previsao do tempo em " + cidade;
+    
+    consulta = replaceAll(consulta, " ", "+");
+    
+    divTwitter.innerHTML = "";
+    var query = "../twitter/search.json?&q=" + consulta;
+    $.ajax({
+        url: query,
+        dataType: "json",
+        success: function (json) {
+            var tabela = document.createElement("table");
+            tabela.innerHTML = "";
+            tabela.setAttribute("class", "news");
+            for(var i = 0; i < json.results.length; i++) {
+                var twitte = json.results[i];
+                adicionarTwitte(tabela, twitte);
+            }
+            divTwitter.appendChild(tabela);
+        }
+    });
+}
+
+function adicionarTwitte(tabela, twitte) {
+    if(twitte != undefined) {
+        var imagem;
+        if(twitte.profile_image_url != undefined) {
+            imagem = twitte.profile_image_url;
+        } else {
+            imagem = "images/noticia.jpg"
+        }
+        var titulo = "@" + twitte.from_user;
+        var conteudo = twitte.text;
+        var tr = document.createElement("tr");
+        var tdImg = document.createElement("td");
+        tdImg.innerHTML = '<img style="align: left;" width="60" height="60" src="'+ imagem +'"/>';
+        tr.appendChild(tdImg);
+        var tdTwitte = document.createElement("td");
+        tdTwitte.innerHTML = '<strong>' + titulo + '</strong><br/><span>'+ textoToLink(conteudo) + '</span>';
+        tr.appendChild(tdTwitte);
+        tabela.appendChild(tr);
+    }
+}
+
+function textoToLink(conteudo) {
+    var texto = "" + conteudo;
+    var indice = texto.indexOf("http://t.co/");
+    if(indice != undefined && indice >= 0) {
+        var subStr = texto.substring(indice+12, texto.length);
+        var indiceFimLink = subStr.indexOf(" ", indice+12);
+        if(indiceFimLink <= 0) indiceFimLink = texto.length;
+        var link = texto.substring(indice, indiceFimLink);
+        var a = '<a href="' + link + '" target="_blank">' + link + '</a>';
+        if(link.length > 10)
+            texto = texto.replace(link, a);
+    }
+    return texto;
+}
+
+function replaceAll(string, token, newtoken) {
+    while (string.indexOf(token) != -1) {
+        string = string.replace(token, newtoken);
+    }
+    return string;
+}
