@@ -4,7 +4,8 @@ $(document).ready(function() {
 
 function converterKelvinEmCelsius(valor) {
     var TEMP_KELVIN = 273.15;
-    return valor - TEMP_KELVIN;
+    var temperatura = Math.round(valor - TEMP_KELVIN);
+    return temperatura;
 }
 
 function removerAcentuacao(texto) {
@@ -36,6 +37,20 @@ function efeitoAjaxPadrao(query, callBack) {
     });     
 }
 
+function atualizarDivPrevisaoDosProximosDias(previsoesDosProximosDias) {
+    var divPrevisaoProximosDias = document.getElementById("previsao_proximos_3_dias");
+    divPrevisaoProximosDias.innerHTML = "";
+    var tabela = document.createElement("table");
+    for (var i = 0; i < 3; i++) {
+        var previsao = previsoesDosProximosDias[i];
+        adicionaLinhaTabela(tabela, ["Data: ", new Date(previsao.dt *1000)]);
+        adicionaLinhaTabela(tabela, ["Máxima (ºC): ", converterKelvinEmCelsius(previsao.main[1].temp_max)]);
+        adicionaLinhaTabela(tabela, ["Máxima (ºC): ", converterKelvinEmCelsius(previsao.main.temp_max)]);
+        adicionaLinhaTabela(tabela, ["Mínima (ºC): ", converterKelvinEmCelsius(previsao.main.temp_min)]);
+        divPrevisaoProximosDias.appendChild(tabela);
+    }
+}
+
 function atualizarDiv(cidade) {
     var divPrevisaoAtual = document.getElementById("previsao_atual");
     divPrevisaoAtual.innerHTML = "";
@@ -46,9 +61,9 @@ function atualizarDiv(cidade) {
     adicionaLinhaTabela(tabela, ["Cidade: ", cidade.name]);
     adicionaLinhaTabela(tabela, ["Logintude: ", cidade.coord.lat]);
     adicionaLinhaTabela(tabela, ["Latitude: ", cidade.coord.lon]);
-    adicionaLinhaTabela(tabela, ["Temperatura (Celsius): ", converterKelvinEmCelsius(cidade.main.temp)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Máxima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
-    adicionaLinhaTabela(tabela, ["Temperatura Mínima (Celsius): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
+    adicionaLinhaTabela(tabela, ["Temperatura (ºC): ", converterKelvinEmCelsius(cidade.main.temp)]);
+    adicionaLinhaTabela(tabela, ["Máxima (ºC): ", converterKelvinEmCelsius(cidade.main.temp_max)]);
+    adicionaLinhaTabela(tabela, ["Mínima (ºC): ", converterKelvinEmCelsius(cidade.main.temp_min)]);
     adicionarImagemNaTabela(tabela, "Condição do Tempo: ", cidade.img);
     
     divPrevisaoAtual.appendChild(tabela);
@@ -150,19 +165,18 @@ function obterPrevisaoDoTempoPorIdDaCidade(id) {
             var cidade = json;
             var id = $("#id_cidade").val();
             atualizarDiv(cidade);
-            //obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id);
         }
     );
 }
 
 function obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(id) {
-    var query = "/openweathermap_history/" + id + "?type=day";
+    var query = "/openweathermap_forecast/" + id;
     console.log("Requisição -> " + query);
     
     efeitoAjaxPadrao(query,
         function (json) {
-            var cidade = json.list[0];
-            atualizarDiv(cidade);
+            var previsao = json.list;
+            atualizarDivPrevisaoDosProximosDias(previsao);
         }
     ); 
 }
@@ -178,6 +192,8 @@ function obterCidadePorCoordenadas(latitude, longitude) {
             obterPrevisaoDoTempoPorIdDaCidade(cidade.id);
             obterFacebook(cidade.name);
             obterTwitter(cidade.name);
+            //obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(cidade.id);
+            obterHistoricoDaPrevisaoDoTempoPorIdDaCidade(cidade.id);
         }
     );
 }
@@ -254,7 +270,7 @@ function adicionarFacebook(tabela, facePost) {
 function obterTwitter(cidade) {
     
     var divTwitter = document.getElementById("twitter");
-    var consulta = "previsao do tempo em " + cidade;
+    var consulta = cidade + " clima temperatura";
     
     consulta = replaceAll(consulta, " ", "+");
     
