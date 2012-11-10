@@ -192,6 +192,9 @@ function obterFacebook(cidade) {
     
     divFacebook.innerHTML = "";
     var query = "../facebook/search?type=POST&q=" + consulta;
+    $('.loader').css({
+        display:"block"
+    });
     efeitoAjaxPadrao(query,
         function (json) {
             var tabela = document.createElement("table");
@@ -203,7 +206,10 @@ function obterFacebook(cidade) {
             }
             divFacebook.appendChild(tabela);
         }
-    );
+        );
+    $('.loader').css({
+        display:"none"
+    });
 }
 function adicionarFacebook(tabela, facePost) {
     
@@ -254,6 +260,9 @@ function obterTwitter(cidade) {
     
     divTwitter.innerHTML = "";
     var query = "../twitter/search.json?&q=" + consulta;
+    $('.loader').css({
+        display:"block"
+    });
     efeitoAjaxPadrao(query,
         function (json) {
             var tabela = document.createElement("table");
@@ -265,7 +274,10 @@ function obterTwitter(cidade) {
             }
             divTwitter.appendChild(tabela);
         }
-    );
+        );
+    $('.loader').css({
+        display:"none"
+    });
 }
 
 function adicionarTwitte(tabela, twitte) {
